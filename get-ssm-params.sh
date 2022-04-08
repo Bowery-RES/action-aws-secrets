@@ -1,10 +1,6 @@
 #!/bin/bash
 
 set -e
-if [[ -z "$INPUT_PARAMETERS" ]]; then
-  echo "Set SSM parameter name list (parameter_name_list) value(s)."
-  exit 1
-fi
 
 region="$AWS_REGION"
 parameter_name_list="$INPUT_PARAMETERS"
