@@ -22,7 +22,7 @@ runs:
 
       - name: Get parameter store values
         shell: bash
-        run: get-ssm-params.sh
+        run: ${{ github.action_path }}/get-ssm-params.sh 
         env:
           INPUT_PREFIX: ${{ inputs.prefix }}
           INPUT_SSM_PARAMETER_LIST: ${{inputs.parameters}}
