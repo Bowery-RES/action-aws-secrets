@@ -26,4 +26,3 @@ runs:
       env:
         INPUT_PREFIX: ${{ inputs.prefix }}
         INPUT_SSM_PARAMETER_LIST: ${{inputs.parameters}}
-        AWS_REGION: ${{inputs.region}}

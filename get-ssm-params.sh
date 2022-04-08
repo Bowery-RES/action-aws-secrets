@@ -2,7 +2,6 @@
 
 set -e
 
-region="$AWS_REGION"
 parameter_name_list="$INPUT_PARAMETERS"
 prefix="${INPUT_PREFIX:-AWS_SSM_}"
 jq_filter="$INPUT_JQ_FILTER"
@@ -14,7 +13,7 @@ format_var_name () {
 
 get_ssm_param() {
   parameter_name="$1"
-  ssm_param=$(aws --region "$region" ssm get-parameter --name "$parameter_name")
+  ssm_param=$(aws ssm get-parameter --name "$parameter_name")
   if [ -n "$jq_filter" ] || [ -n "$simple_json" ]; then
     ssm_param_value=$(echo "$ssm_param" | jq '.Parameter.Value | fromjson')
     if [ -n "$simple_json" ] && [ "$simple_json" == "true" ]; then
