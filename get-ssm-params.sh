@@ -1,13 +1,13 @@
 #!/bin/bash
 
 set -e
-if [[ -z "$INPUT_SSM_PARAMETER_LIST" ]]; then
+if [[ -z "$INPUT_PARAMETERS" ]]; then
   echo "Set SSM parameter name list (parameter_name_list) value(s)."
   exit 1
 fi
 
 region="$AWS_REGION"
-parameter_name_list="$INPUT_SSM_PARAMETER_LIST"
+parameter_name_list="$INPUT_PARAMETERS"
 prefix="${INPUT_PREFIX:-AWS_SSM_}"
 jq_filter="$INPUT_JQ_FILTER"
 simple_json="$INPUT_SIMPLE_JSON"

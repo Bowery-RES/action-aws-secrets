@@ -1,31 +1,29 @@
-name: 'Build and push docker image to ECR'
-description: 'Greet someone'
+name: "AWS secrets"
+description: "Get AWS secrets and parameters"
 inputs:
   secrets:
-    description: 'Path to root folder with image'
+    description: "Secrets list"
     required: false
   parameters:
-    description: 'Github token'
+    description: "Parameters list"
     required: false
   prefix:
-    description: 'Path to root folder with image'
+    description: "Parameters prefix"
     required: false
 
 runs:
   using: "composite"
   steps:
-      - name: Read secrets from AWS Secrets Manager into environment variables  
-        uses: abhilash1in/aws-secrets-manager-action@v2.0.0
-        with:
-          secrets: ${{ inputs.secrets }}
-          parse-json: true
+    - name: Read secrets from AWS Secrets Manager into environment variables
+      uses: abhilash1in/aws-secrets-manager-action@v2.0.0
+      with:
+        secrets: ${{ inputs.secrets }}
+        parse-json: true
 
-      - name: Get parameter store values
-        shell: bash
-        run: ${{ github.action_path }}/get-ssm-params.sh 
-        env:
-          INPUT_PREFIX: ${{ inputs.prefix }}
-          INPUT_SSM_PARAMETER_LIST: ${{inputs.parameters}}
-
-
-  
+    - name: Get parameter store values
+      shell: bash
+      run: ${{ github.action_path }}/get-ssm-params.sh
+      env:
+        INPUT_PREFIX: ${{ inputs.prefix }}
+        INPUT_SSM_PARAMETER_LIST: ${{inputs.parameters}}
+        AWS_REGION: ${{inputs.region}}
