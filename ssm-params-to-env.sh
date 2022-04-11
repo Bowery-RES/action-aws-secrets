@@ -2,14 +2,17 @@
 
 set -e
 
-parameter_name_list="$1"
-prefix="${$2:-AWS_SSM_}"
+parameters="$1"
+prefix="${2:-AWS_SSM_}"
 jq_filter="$INPUT_JQ_FILTER"
 simple_json="$INPUT_SIMPLE_JSON"
-echo "$prefix" 
-echo "$parameter_name_list" 
-printenv
+
+if [ -z "$parameters" ]; then
+  echo "Invalid argument: parameters is empty" 
+fi
+
 format_var_name () {
+  echo "$1"
   echo "$1" | awk -v prefix="$prefix" -F. '{print prefix $NF}' | tr "[:lower:]" "[:upper:]"
 }
 
@@ -37,7 +40,7 @@ get_ssm_param() {
   fi
 }
 
-for parameter in $(echo $parameter_name_list | sed "s/,/ /g"); do
+for parameter in $(echo $parameters | sed "s/,/ /g"); do
   get_ssm_param "$parameter"
 done
 
