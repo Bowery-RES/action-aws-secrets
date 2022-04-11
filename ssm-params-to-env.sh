@@ -2,8 +2,8 @@
 
 set -e
 
-parameter_name_list="$INPUT_PARAMETERS"
-prefix="${INPUT_PREFIX:-AWS_SSM_}"
+parameter_name_list="$1"
+prefix="${$2:-AWS_SSM_}"
 jq_filter="$INPUT_JQ_FILTER"
 simple_json="$INPUT_SIMPLE_JSON"
 echo "$prefix" 
