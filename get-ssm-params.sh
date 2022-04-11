@@ -6,7 +6,9 @@ parameter_name_list="$INPUT_PARAMETERS"
 prefix="${INPUT_PREFIX:-AWS_SSM_}"
 jq_filter="$INPUT_JQ_FILTER"
 simple_json="$INPUT_SIMPLE_JSON"
-
+echo "$prefix" 
+echo "$parameter_name_list" 
+printenv
 format_var_name () {
   echo "$1" | awk -v prefix="$prefix" -F. '{print prefix $NF}' | tr "[:lower:]" "[:upper:]"
 }
