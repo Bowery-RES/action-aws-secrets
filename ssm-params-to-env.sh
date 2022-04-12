@@ -2,8 +2,8 @@
 
 set -e
 
-parameters="$1"
-prefix="${2:-AWS_SSM_}"
+parameters="$PARAMETERS"
+prefix="${$PREFIX:-AWS_SSM_}"
 jq_filter="$INPUT_JQ_FILTER"
 simple_json="$INPUT_SIMPLE_JSON"
 
@@ -12,7 +12,6 @@ if [ -z "$parameters" ]; then
 fi
 
 format_var_name () {
-  
   echo "$1" | awk -v prefix="$prefix" -F. '{print prefix $NF}' | tr "[:lower:]" "[:upper:]"
 }
 
