@@ -36,7 +36,7 @@ get_ssm_param() {
       done
     fi
   else
-    var_name=$(echo "$ssm_param" | jq -r '.Parameter.Name' | awk -F/ '{print $NF}')
+    var_name=$(echo "$ssm_param" | jq -r '.Parameter.Name')
     echo "$(format_var_name "$var_name")"
     var_value=$(echo "$ssm_param" | jq -r '.Parameter.Value')
     echo "$(format_var_name "$var_name")=$var_value" >> $GITHUB_ENV
