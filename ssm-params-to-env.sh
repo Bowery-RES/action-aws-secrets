@@ -12,7 +12,7 @@ if [ -z "$parameters" ]; then
 fi
 
 format_var_name () {
-  echo "$1" | awk -v prefix="$prefix" -F. '{print prefix $NF}' | tr "[:lower:]" "[:upper:]"
+  echo "$1" | sed 's/^.//' | tr / _ | awk -v prefix="$prefix" -F. '{print prefix $NF}' | tr "[:lower:]" "[:upper:]"
 }
 
 get_ssm_param() {
@@ -22,7 +22,6 @@ get_ssm_param() {
     ssm_param_value=$(echo "$ssm_param" | jq '.Parameter.Value | fromjson')
     if [ -n "$simple_json" ] && [ "$simple_json" == "true" ]; then
       for p in $(echo "$ssm_param_value" | jq -r --arg v "$prefix" 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' ); do
-        echo "$p"
         IFS='=' read -r var_name var_value <<< "$p"
         echo "$(format_var_name "$var_name")=$var_value" >> $GITHUB_ENV
       done
@@ -34,8 +33,7 @@ get_ssm_param() {
       done
     fi
   else
-    var_name=$(echo "$ssm_param" | jq -r '.Parameter.Name' | sed 's/^.//' | tr / _)
-    echo "$(format_var_name "$var_name")"
+    var_name=$(echo "$ssm_param" | jq -r '.Parameter.Name')
     var_value=$(echo "$ssm_param" | jq -r '.Parameter.Value')
     echo "$(format_var_name "$var_name")=$var_value" >> $GITHUB_ENV
   fi
