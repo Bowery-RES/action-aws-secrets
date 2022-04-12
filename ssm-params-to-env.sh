@@ -3,7 +3,7 @@
 set -e
 
 parameters="$PARAMETERS"
-prefix="${$PREFIX:-AWS_SSM_}"
+prefix="${PREFIX:-AWS_SSM_}"
 jq_filter="$INPUT_JQ_FILTER"
 simple_json="$INPUT_SIMPLE_JSON"
 
