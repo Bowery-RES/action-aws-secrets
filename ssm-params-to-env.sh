@@ -3,7 +3,7 @@
 set -e
 
 parameters="$PARAMETERS"
-prefix="${PREFIX:-AWS_SSM_}"
+prefix="${PREFIX}"
 jq_filter="$INPUT_JQ_FILTER"
 simple_json="$INPUT_SIMPLE_JSON"
 
@@ -29,14 +29,12 @@ get_ssm_param() {
     else
       IFS=' ' read -r -a params <<< "$jq_filter"
       for var_name in "${params[@]}"; do
-        echo "$var_name"
         var_value=$(echo "$ssm_param_value" | jq -r -c "$var_name")
-        echo "$(format_var_name "$var_name")"
         echo "$(format_var_name "$var_name")=$var_value" >> $GITHUB_ENV
       done
     fi
   else
-    var_name=$(echo "$ssm_param" | jq -r '.Parameter.Name' | tr / _)
+    var_name=$(echo "$ssm_param" | jq -r '.Parameter.Name' | sed 's/^.//' | tr / _)
     echo "$(format_var_name "$var_name")"
     var_value=$(echo "$ssm_param" | jq -r '.Parameter.Value')
     echo "$(format_var_name "$var_name")=$var_value" >> $GITHUB_ENV
