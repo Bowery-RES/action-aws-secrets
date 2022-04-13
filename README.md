@@ -39,3 +39,37 @@ GITHUB_TERRAFORM_DEVELOPMENT_KEY1=***
 GITHUB_TERRAFORM_DEVELOPMENT_KEY2=***
 GITHUB_TERRAFORM_DEVELOPMENT_NEXT_KEY=***
 ```
+
+# AWS Role
+
+Role which is used in `aws-actions/configure-aws-credentials@v1` should be created with the following Trust Relationship
+
+```json
+{
+    "Version": "2008-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Federated": "arn:aws:iam::<account-id>:oidc-provider/token.actions.githubusercontent.com"
+            },
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Condition": {
+                "StringLike": {
+                    "token.actions.githubusercontent.com:sub": "repo:<org name>/<repo name>:*"
+                }
+            }
+        }
+    ]
+}
+```
+
+# Permissions
+
+Please note, to use role based approach to configure AWS, we should add the following permissions to the job
+
+```yml
+permissions:
+  id-token: write
+  contents: read
+```
