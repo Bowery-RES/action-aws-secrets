@@ -24,7 +24,8 @@ jobs:
         uses: Bowery-RES/action-aws-secrets@main
         with:
           secrets: |
-            Github/Terraform/Development/Secret_Value
+            Github/Terraform/Development/Secret_Value,
+            Github/Terraform/Development/JSon # {test: "value"}
           parameters: |
             /Github/Terraform/${{env.DEPLOYMENT_ENVIRONMENT}}/Key1,
             /Github/Terraform/${{ env.DEPLOYMENT_ENVIRONMENT }}/Key2,
@@ -33,8 +34,9 @@ jobs:
 
 An example above will extend env to the following enironment variables
 
-```
+```sh
 GITHUB_TERRAFORM_DEVELOPMENT_SECRET_VALUE=***
+GITHUB_TERRAFORM_DEVELOPMENT_JSON__TEST=*** # a double underscore to get json nested value
 GITHUB_TERRAFORM_DEVELOPMENT_KEY1=***
 GITHUB_TERRAFORM_DEVELOPMENT_KEY2=***
 GITHUB_TERRAFORM_DEVELOPMENT_NEXT_KEY=***
