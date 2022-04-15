@@ -6,13 +6,15 @@ parameters="$PARAMETERS"
 prefix="${PREFIX}"
 jq_filter="$INPUT_JQ_FILTER"
 simple_json="$INPUT_SIMPLE_JSON"
-
+namespace="$NAMESPACE"
 if [ -z "$parameters" ]; then
   echo "Invalid argument: parameters is empty" 
 fi
 
+
 format_var_name () {
-  echo "$1" | sed 's/^.//' | tr / _ | awk -v prefix="$prefix" -F. '{print prefix $NF}' | tr "[:lower:]" "[:upper:]"
+  name=$(echo "$1" | sed 's/^.//' | if [ "$namespace" = "true" ]; then  tr / _ ; else awk -F/ '{print $NF}'; fi )
+  echo "$name" | awk -v prefix="$prefix" -F. '{print prefix $NF}' | tr "[:lower:]" "[:upper:]"
 }
 
 get_ssm_param() {
