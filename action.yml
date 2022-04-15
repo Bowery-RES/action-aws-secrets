@@ -20,7 +20,7 @@ runs:
   steps:
     - name: Read secrets from AWS Secrets Manager into environment variables
       if: ${{ inputs.secrets }} != ""
-      uses: suriyanto/aws-secrets-manager-action@v1
+      uses: abhilash1in/aws-secrets-manager-action@v2.0.0
       with:
         secrets: ${{ inputs.secrets }}
         parse-json: true
