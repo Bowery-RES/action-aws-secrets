@@ -36,10 +36,19 @@ An example above will extend env to the following enironment variables
 
 ```sh
 GITHUB_TERRAFORM_DEVELOPMENT_SECRET_VALUE=***
-GITHUB_TERRAFORM_DEVELOPMENT_JSON__TEST=*** # a double underscore to get json nested value
+GITHUB_TERRAFORM_DEVELOPMENT_JSON_TEST=*** # a double underscore to get json nested value
 GITHUB_TERRAFORM_DEVELOPMENT_KEY1=***
 GITHUB_TERRAFORM_DEVELOPMENT_KEY2=***
 GITHUB_TERRAFORM_DEVELOPMENT_NEXT_KEY=***
+```
+
+If you add `namespace: false` it will add the following env vars
+
+```sh
+TEST=*** # a double underscore to get json nested value
+KEY1=***
+KEY2=***
+NEXT_KEY=***
 ```
 
 # AWS Role
@@ -48,21 +57,21 @@ Role which is used in `aws-actions/configure-aws-credentials@v1` should be creat
 
 ```json
 {
-    "Version": "2008-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "Federated": "arn:aws:iam::<account-id>:oidc-provider/token.actions.githubusercontent.com"
-            },
-            "Action": "sts:AssumeRoleWithWebIdentity",
-            "Condition": {
-                "StringLike": {
-                    "token.actions.githubusercontent.com:sub": "repo:<org name>/<repo name>:*"
-                }
-            }
+  "Version": "2008-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::<account-id>:oidc-provider/token.actions.githubusercontent.com"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringLike": {
+          "token.actions.githubusercontent.com:sub": "repo:<org name>/<repo name>:*"
         }
-    ]
+      }
+    }
+  ]
 }
 ```
 
