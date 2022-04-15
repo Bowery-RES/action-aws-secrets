@@ -7,7 +7,6 @@ prefix="${PREFIX}"
 jq_filter="$INPUT_JQ_FILTER"
 simple_json="$INPUT_SIMPLE_JSON"
 namespace="$NAMESPACE"
-echo "$namespace"
 if [ -z "$parameters" ]; then
   echo "Invalid argument: parameters is empty" 
 fi
