@@ -10,5 +10,6 @@ for secret in $(echo $secrets | sed "s/,/ /g"); do
   echo "$full_name"
   echo "$secret" | awk 'BEGIN{FS=OFS="/"}{NF--; print}' | tr / _ | tr "[:lower:]" "[:upper:]"
   echo "$name"
+  cat $GITHUB_ENV
   sed -i "s/$full_name/$name/" $GITHUB_ENV
 done
