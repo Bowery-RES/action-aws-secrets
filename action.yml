@@ -20,7 +20,7 @@ runs:
   steps:
     - id: format-secrets
       shell: bash
-      run: SECRETS="${SECRETS_LIST//,/ }" echo "::set-output name=formatted::$SECRETS"
+      run: SECRETS="${SECRETS_LIST//,/ }"&& echo "::set-output name=formatted::$SECRETS"
       env:
         SECRETS_LIST: ${{ inputs.secrets }}
 
