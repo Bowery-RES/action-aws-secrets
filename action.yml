@@ -22,7 +22,7 @@ runs:
       if: ${{ inputs.secrets }} != ""
       uses: abhilash1in/aws-secrets-manager-action@v2.0.0
       with:
-        secrets: ${{ inputs.secrets }}
+        secrets: ${{ inputs.secrets//,/ }}
         parse-json: true
 
     - name: Omit namespace in secrets
