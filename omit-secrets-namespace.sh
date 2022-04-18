@@ -4,7 +4,7 @@ set -e
 
 secrets="$SECRETS"
 
-for secret in $(echo $secrets); do
+for secret in $(echo $secrets | sed "s/%0A/\n/g"); do
   full_name=$(echo "$secret" | tr / _ | awk -v prefix="$prefix" -F. '{print prefix $NF}' | tr "[:lower:]" "[:upper:]")
   printenv | sed -n -e "/^$full_name/p" | sed  "s/$full_name//" | sed 's/^_//' >> $GITHUB_ENV
 done
