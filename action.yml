@@ -18,6 +18,10 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - id: format-secrets
+      run: SECRETS=${{ inputs.secrets }}//,/ echo "::set-output name=formatted::${SECRETS,,}"
+
+    - run: echo ${{steps.format-secrets.outputs.formatted}}
     - name: Read secrets from AWS Secrets Manager into environment variables
       if: ${{ inputs.secrets }} != ""
       uses: abhilash1in/aws-secrets-manager-action@v2.0.0
