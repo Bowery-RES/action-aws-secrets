@@ -30,7 +30,7 @@ runs:
         SECRETS_LIST: ${{ inputs.secrets }}
 
     - shell: bash
-      run: echo ${{steps.format-secrets.outputs.formatted}}
+      run: echo "${{steps.format-secrets.outputs.formatted}}"
     - name: Read secrets from AWS Secrets Manager into environment variables
       if: $${{steps.format-secrets.outputs.formatted}} != ""
       uses: abhilash1in/aws-secrets-manager-action@v2.0.0
