@@ -20,25 +20,25 @@ runs:
   steps:
     - id: format-secrets
       shell: bash
-      run: SECRETS="${SECRETS_LIST//,/ }"&& echo "::set-output name=formatted::$SECRETS"
+      run: SECRETS="${SECRETS_LIST//,/}"&& echo "::set-output name=formatted::$SECRETS"
       env:
         SECRETS_LIST: ${{ inputs.secrets }}
 
     - shell: bash
       run: echo ${{steps.format-secrets.outputs.formatted}}
     - name: Read secrets from AWS Secrets Manager into environment variables
-      if: ${{ inputs.secrets }} != ""
+      if: $${{steps.format-secrets.outputs.formatted}} != ""
       uses: abhilash1in/aws-secrets-manager-action@v2.0.0
       with:
-        secrets: ${{ inputs.secrets }}
+        secrets: ${{steps.format-secrets.outputs.formatted}}
         parse-json: true
 
     - name: Omit namespace in secrets
-      if: ${{ inputs.secrets }} != "" && ${{ inputs.namespace }} != "true"
+      if: ${{steps.format-secrets.outputs.formatted}} != "" && ${{ inputs.namespace }} != "true"
       shell: bash
       run: ${{ github.action_path }}/omit-secrets-namespace.sh
       env:
-        SECRETS: ${{ inputs.secrets }}
+        SECRETS: ${{steps.format-secrets.outputs.formatted}}
 
     - name: Get parameter store values
       if: ${{ inputs.parameters }} != ""
