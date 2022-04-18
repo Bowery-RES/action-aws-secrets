@@ -20,7 +20,7 @@ runs:
   steps:
     - id: format-secrets
       shell: bash
-      run: SECRETS=${{ inputs.secrets }}//,/ echo "::set-output name=formatted::${SECRETS,,}"
+      run: SECRETS="${{ inputs.secrets }}//,/" echo "::set-output name=formatted::${SECRETS,,}"
 
     - shell: bash
       run: echo ${{steps.format-secrets.outputs.formatted}}
