@@ -49,7 +49,7 @@ runs:
     - name: Get parameter store values
       if: ${{ inputs.parameters }} != ""
       shell: bash
-      run: ${{ github.action_path }}/ssm-params-to-env.sh
+      run: $GITHUB_ACTION_PATH/ssm-params-to-env.sh
       env:
         PARAMETERS: ${{ inputs.parameters }}
         PREFIX: ${{ inputs.prefix }}
