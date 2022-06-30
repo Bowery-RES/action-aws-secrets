@@ -41,7 +41,7 @@ runs:
     - name: Omit namespace in secrets
       if: ${{steps.format-secrets.outputs.formatted}} != "" && ${{ inputs.namespace }} != "true"
       shell: bash
-      run: ${{ github.action_path }}/omit-secrets-namespace.sh
+      run: $GITHUB_ACTION_PATH/omit-secrets-namespace.sh
       env:
         SECRETS: ${{steps.format-secrets.outputs.formatted}}
 
